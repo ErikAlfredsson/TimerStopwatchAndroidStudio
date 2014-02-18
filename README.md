@@ -1,4 +1,4 @@
 TimerStopwatchAndroidStudio
 ===========================
 
-Schoolproject. Timer &amp; Stopwatch that runs with background service. 
+Schoolproject. Timer &amp; Stopwatch that runs in background service. 
