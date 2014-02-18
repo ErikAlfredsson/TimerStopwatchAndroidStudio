@@ -23,7 +23,7 @@ public class TimerService extends Service implements Handler.Callback {
     private static final int NOTIFICATION_ID = 1000;
     private static final int COUNTDOWN_TIMER_MSG = 2000;
     private static final int ALARM_TIMER_MSG = 3000;
-    public static long TIMER_START_VALUE = 3000;
+    public static long TIMER_START_VALUE = 0;
     private final LocalBinder mLocalBinder = new LocalBinder();
     private TimerCallback mTimerCallback;
     private NotificationCompat.Builder mNotification;
@@ -39,7 +39,7 @@ public class TimerService extends Service implements Handler.Callback {
         long now = SystemClock.elapsedRealtime();
         if(msg.what == COUNTDOWN_TIMER_MSG) {
             mTimerMsLeft = TIMER_START_VALUE - (now - mStartTime);
-            if (mTimerMsLeft >= 0) {
+            if (mTimerMsLeft >= 0 && mTimerIsRunning) {
                 notifyTimerCallback();
                 mHandler.sendEmptyMessageDelayed(COUNTDOWN_TIMER_MSG, 10);
             } else {
@@ -86,7 +86,6 @@ public class TimerService extends Service implements Handler.Callback {
         intent.putExtra("sectionNumber", 1);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-// Creates the PendingIntent
         PendingIntent notifyIntent =
                 PendingIntent.getActivity(
                         this,
@@ -133,8 +132,7 @@ public class TimerService extends Service implements Handler.Callback {
         mRingtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
         mRingtone.play();
         mHandler.sendEmptyMessageDelayed(ALARM_TIMER_MSG, 30000);
-        //TODO alertdialog där man kan stänga av
-        //MainActivity.
+
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("alertDialog", 20);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -144,10 +142,6 @@ public class TimerService extends Service implements Handler.Callback {
 
     public void stopAlarm() {
         mRingtone.stop();
-    }
-
-    public long getTimerValue() {
-        return mTimerMsLeft;
     }
 
     private void notifyTimerCallback() {

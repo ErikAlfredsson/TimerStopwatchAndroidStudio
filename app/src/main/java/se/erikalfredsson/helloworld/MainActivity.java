@@ -295,12 +295,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Tim
         public void onServiceConnected(ComponentName name, IBinder service) {
             mTimerService = ((TimerService.LocalBinder) service).getService();
             mTimerService.setTimerCallback(MainActivity.this);
-            //mTimerFragment.setTimerButtonEnabled(true);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            //mTimerFragment.setTimerButtonEnabled(false);
             mTimerService = null;
         }
     }
@@ -382,7 +380,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Tim
             builder.setMessage("Timer finished")
                     .setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // FIRE ZE MISSILES!
                             mTimerService.stopAlarm();
                             mTimerService.resetTimer();
 
