@@ -61,8 +61,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Tim
     ViewPager mViewPager;
     private int mSectionNumber;
 
-    private int mTimerSetValue;
-
     private static TimerService mTimerService;
     private TimerServiceConnection mTimerServiceConnection;
     private static PlaceholderFragment mTimerFragment;
@@ -151,7 +149,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Tim
                 mStopwatchServiceConnection, BIND_AUTO_CREATE);
 
 
-        mViewPager.setCurrentItem(mSectionNumber);
     }
 
     @Override
@@ -190,27 +187,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Tim
         mLastPage = savedInstanceState.getInt(LAST_PAGE_KEY, 0);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(SettingsActivity.ACTION_SETTINGS);
-            startActivity(intent);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
@@ -300,7 +276,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Tim
 
 
     public void onResetTimerClicked(View view) {
-        if (mTimerService != null) {
+        if (mTimerService != null ) {
             mTimerService.stopTimer();
             mTimerFragment.mTimerTimePicker.setEnabled(true);
             mTimerFragment.mTimerStartStopButton.setText("Start");
@@ -403,12 +379,19 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Tim
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage("Timer is finished")
+            builder.setMessage("Timer finished")
                     .setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // FIRE ZE MISSILES!
                             mTimerService.stopAlarm();
                             mTimerService.resetTimer();
+
+                            mTimerFragment.updateTimerValue(0);
+                            mTimerFragment.mTimerStartStopButton.setBackgroundResource(R.drawable.oval_start_button);
+                            mTimerFragment.mTimerTimePicker.setEnabled(true);
+                            mTimerFragment.mTimerStartStopButton.setText("Start");
+                            setResetButtonState(RESET_BUTTON_DISABLED);
+
                         }
                     });
 
@@ -491,6 +474,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Tim
                             mTimerService.TIMER_START_VALUE = pickedTimerValue;
 
                         }
+
 
                     });
 

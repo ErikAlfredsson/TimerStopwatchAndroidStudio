@@ -43,8 +43,9 @@ public class TimerService extends Service implements Handler.Callback {
                 notifyTimerCallback();
                 mHandler.sendEmptyMessageDelayed(COUNTDOWN_TIMER_MSG, 10);
             } else {
-                triggerAlarm();
-                Toast.makeText(this, "Timer finished", Toast.LENGTH_SHORT).show();
+                if (mTimerIsRunning) {
+                    triggerAlarm();
+                }
             }
         }
         if (msg.what == ALARM_TIMER_MSG) {
@@ -127,6 +128,7 @@ public class TimerService extends Service implements Handler.Callback {
     }
 
     public void triggerAlarm() {
+        mTimerIsRunning = false;
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         mRingtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
         mRingtone.play();
