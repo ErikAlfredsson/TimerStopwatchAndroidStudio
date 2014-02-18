@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/timer_value"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00:00"
+        android:textAlignment="center"
+        android:textSize="90sp"
+        android:fontFamily="sans-serif-thin"/>
+    <TextView
+        android:id="@+id/timer_dummy"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/stopwatch_value"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <Button
+        android:id="@+id/start_timer_button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/start_timer_button"
+        android:layout_below="@id/timer_value"
+        android:layout_toLeftOf="@id/timer_dummy"
+        android:background="@drawable/oval_start_button"
+        android:textColor="@android:color/black"
+        android:fontFamily="sans-serif-thin"
+        android:textSize="@dimen/button_label_size"
+        android:onClick="startTimer"/>
+
+
+
+    <Button
+        android:id="@+id/reset_timer_button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/reset_timer_button_label"
+        android:layout_below="@id/timer_value"
+        android:layout_toRightOf="@id/timer_dummy"
+        android:background="@drawable/oval_disabled_button"
+        android:textColor="@color/gray_color"
+        android:fontFamily="sans-serif-thin"
+        android:textSize="@dimen/button_label_size"
+        android:onClick="onResetTimerClicked"/>
+
+
+    <TimePicker
+        android:id="@+id/timer_time_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/start_timer_button"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        ></TimePicker>
+
+
+
+</RelativeLayout>
